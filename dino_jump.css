@@ -1,0 +1,124 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#window {
+	background: #fff;
+	position: relative;
+	width: 100%;
+	height: 400px;
+	/*box-shadow: 5px 5px 10px;*/
+	/*margin: 50px auto;*/
+	overflow: hidden;
+}
+
+#desert {
+	width: 2560px;
+	height: 100%;
+	z-index: -1;
+	background-image: url('img/BG.png');
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	background-size: contain;
+	animation: parallax 5s linear infinite;
+}
+
+.status {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 5px 10px;
+	font-family: 'Comic Sans MS';
+	font-size: 1.5em;
+}
+
+#dino {
+	width: 130px;
+	height: 120px;
+	z-index: 1;
+	background-image: url('img/run1.png');
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	background-size: contain;
+	position: absolute;
+	bottom: 0px;
+	left: 100px;
+	animation: run 500ms steps(1,end) infinite;
+}
+
+#object {
+	width: 80px;
+	height: 80px;
+	background: url('img/spike1.png');
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	background-size: contain;
+	position: absolute;
+	bottom: 0px;
+	left: 670px;
+	animation: scrolling 3s linear infinite;
+}
+
+@keyframes parallax {
+	100% {
+		transform: translateX(-1066px);
+	}
+}
+
+@keyframes run {
+	0% {
+		background-image: url('img/run1.png');
+	}
+	25% {
+		background-image: url('img/run2.png');
+	}
+	50% {
+		background-image: url('img/run3.png')
+	}
+	75% {
+		background-image: url('img/run2.png')
+	}
+	100% {
+		background-image: url('img/run1.png')
+	}
+}
+
+@keyframes jumping {
+	20% {
+		/*top: 280px;*/
+		/*transform: translateY(-100px);*/
+		bottom: 100px;
+		background-image: url('img/jump1.png');
+	}
+
+	30% {
+		/*top: 150px;*/
+		bottom: 150px;
+		/*transform: translateY(-200px);*/
+		background-image: url('img/jump2.png');
+	}
+
+	70% {
+		/*top: 180px;*/
+		bottom: 120px;
+		/*transform: translateY(-100px);*/
+		background-image: url('img/jump3.png');
+	}
+	90% {
+		/*top: 250px;*/
+		bottom: 50px;
+		/*transform: translateY(-50px);*/
+		background-image: url('img/jump3.png');
+	}
+}
+
+@keyframes scrolling {
+	0% {
+		left: 2000px;
+	}
+	100% {
+		left: -100px;
+	}
+}
