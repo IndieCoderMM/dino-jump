@@ -7,6 +7,13 @@ var isDead = true;
 var isJumping = false;
 var spikeImages = ['img/cactus1.png', 'img/cactus2.png'];
 
+if ( window.innerWidth <= 600 ) {
+	toastr.options.timeOut = 2000;
+	toastr.options.extendedTimeOut = 1000;
+	toastr.options.progressBar = true;
+	toastr.info("Rotate your phone for better experience.")
+}
+
 // Start button using Toastr
 toastr.options = {
 	'timeOut': 0,
@@ -14,6 +21,7 @@ toastr.options = {
 	'onclick': startGame,
 	'positionClass': "toast-bottom-right"
 }
+
 toastr.success("Click this to start...");
 
 // Start game when toastr is clicked
@@ -63,6 +71,7 @@ function gameOver () {
 		};
 		toastr.success("Click to Play Again...");
 		toastr.options.timeOut = 3000;
+		toastr.options.extendedTimeOut = 500;
 		toastr.options.progressBar = true;
 		toastr.warning("GAME OVER!");
 	}
@@ -92,10 +101,8 @@ function generateNewSpike () {
 	spike.style.backgroundImage = "url(" + spikeImages[randIndex] + ")";
 
 	// Increase speed as score higher
-	if (sessionStorage.score > 30) {
+	if (sessionStorage.score > 20) {
 		spike.style.animationDuration = "3s";
-	} else if (sessionStorage.score > 20) {
-		spike.style.animationDuration = "4s";
 	}
 }
 
