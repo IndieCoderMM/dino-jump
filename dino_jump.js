@@ -91,9 +91,9 @@ function generateNewSpike () {
 
 	// Increase speed as score higher
 	if (sessionStorage.score > 30) {
-		spike.style.animationDuration = "3.5s";
-	} else if (sessionStorage.score > 20) {
 		spike.style.animationDuration = "4s";
+	} else if (sessionStorage.score > 20) {
+		spike.style.animationDuration = "4.5s";
 	}
 };
 
