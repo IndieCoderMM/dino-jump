@@ -14,7 +14,7 @@ toastr.options = {
 	'onclick': startGame,
 	'positionClass': "toast-bottom-right"
 }
-toastr.info("Press this to start");
+toastr.success("Click this to start...");
 
 // Start game when toastr is clicked
 function startGame () {
@@ -58,11 +58,13 @@ function updateScore () {
 function gameOver () {
 	if (!(isDead)) {
 		isDead = true;
-
 		toastr.options.onclick = function () {
 			document.location.reload(true);
 		};
-		toastr.warning("GAME OVER! Click to Play Again...");
+		toastr.success("Click to Play Again...");
+		toastr.options.timeOut = 3000;
+		toastr.options.progressBar = true;
+		toastr.warning("GAME OVER!");
 	}
 	dino.style.backgroundImage = "url('img/dead.png')";
 	dino.style.animation = "none";
@@ -82,7 +84,7 @@ function jump () {
 function resetAnim () {
 	isJumping = false;
 	dino.style.animation = "moving 500ms steps(1,end) infinite";
-};
+}
 
 function generateNewSpike () {
 	// Random image
@@ -91,9 +93,9 @@ function generateNewSpike () {
 
 	// Increase speed as score higher
 	if (sessionStorage.score > 30) {
-		spike.style.animationDuration = "4s";
+		spike.style.animationDuration = "3s";
 	} else if (sessionStorage.score > 20) {
-		spike.style.animationDuration = "4.5s";
+		spike.style.animationDuration = "4s";
 	}
-};
+}
 
