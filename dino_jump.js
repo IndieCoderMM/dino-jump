@@ -1,72 +1,99 @@
 var dino = document.getElementById("dino");
-var object = document.getElementById("object");
-var score_text = document.getElementById('score');
-var hiscore_text = document.getElementById('hiscore');
+var spike = document.getElementById("spike");
+var scoreText = document.getElementById('score');
+var hiscoreText = document.getElementById('hiscore');
 
-var dead = false;
-var object_images = ['img/spike1.png', 'img/spike2.png'];
+var isDead = true;
+var isJumping = false;
+var spikeImages = ['img/cactus1.png', 'img/cactus2.png'];
 
-sessionStorage.score = 0;
-if (isNaN(sessionStorage.hiscore)) {
-	sessionStorage.hiscore = 0;
+// Start button using Toastr
+toastr.options = {
+	'timeOut': 0,
+	'extendedTimeOut': 0,
+	'onclick': startGame,
+	'positionClass': "toast-bottom-right"
+}
+toastr.info("Press this to start");
+
+// Start game when toastr is clicked
+function startGame () {
+	// Initialize scores
+	sessionStorage.score = 0;
+	sessionStorage.hiscore = sessionStorage.hiscore || 0;
+
+	// Start animations
+	isDead = false;
+	spike.style.animationPlayState = "running";
+
+	// Update game once every 10ms
+	setInterval(updateGame, 10);
 }
 
-console.log(sessionStorage.score, sessionStorage.hiscore);
+function updateGame () {
+	var dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+	var dinoLeft = parseInt(window.getComputedStyle(dino).getPropertyValue("left"));
+	var dinoWidth = parseInt(window.getComputedStyle(dino).getPropertyValue("width"));
+	var spikeLeft = parseInt(window.getComputedStyle(spike).getPropertyValue("left"));
 
-var jump = function () {
-	dino.style.animation = "jumping 800ms steps(1,end)";
-	setTimeout(resetAnim, 800);
-};
-
-var  resetAnim = function () {
-	dino.style.animation = "run 500ms steps(1,end) infinite";
-};
-
-var checkCollision = function () {
-	var dinoBottom = 
-	parseInt(window.getComputedStyle(dino).
-	getPropertyValue("bottom"));
-
-	var objectLeft = 
-	parseInt(window.getComputedStyle(object).
-	getPropertyValue("left"));
-
-	// if ( objectLeft < 150 && objectLeft > 100 && dinoBottom <= 100 ) {
-	// 		dead = true;
-
-	// 		object.style.animationPlayState = "paused";
-	// 		dino.style.backgroundImage = "url('img/dead.png')";
-	// 		dino.style.animation = "none";
-	// 		document.getElementById("desert").style
-	// 		.animationPlayState = "paused";
-	// }
-
-	if ( objectLeft < -95 ) {
-		generateNewObject();
+	if ( spikeLeft < (dinoLeft+dinoWidth/3) && spikeLeft > dinoLeft && dinoBottom <= 100 ) {
+		gameOver();
+	} else if ( spikeLeft < -95 ) {
+		generateNewSpike();
 	}
+	updateScore();
+}
 
-};
-
-var getRandom = function (choices, count) {
-	random_index = Math.floor(Math.random() * count);
-	return choices[random_index];
-};
-
-var generateNewObject = function () {
-	newObject = getRandom(object_images, 2);
-	object.style.backgroundImage = "url(" + newObject + ")";
-};
-
-var updateScore = function () {
-	if (dead != true) {
+function updateScore () {
+	if (!(isDead)) {
 		sessionStorage.score = Number(sessionStorage.score) + 0.01;
 		if (Number(sessionStorage.score) > Number(sessionStorage.hiscore)) {
 			sessionStorage.hiscore = sessionStorage.score;
 		}	
 	}
-	score_text.innerHTML = "Score: " + Math.floor(sessionStorage.score);
-	hiscore_text.innerHTML = "Best: " + Math.floor(sessionStorage.hiscore);
+	scoreText.innerHTML = "Score: " + Math.floor(sessionStorage.score);
+	hiscoreText.innerHTML = "Best: " + Math.floor(sessionStorage.hiscore);
 }
 
-setInterval(checkCollision, 10);
-setInterval(updateScore, 10);
+function gameOver () {
+	if (!(isDead)) {
+		isDead = true;
+
+		toastr.options.onclick = function () {
+			document.location.reload(true);
+		};
+		toastr.warning("GAME OVER! Click to Play Again...");
+	}
+	dino.style.backgroundImage = "url('img/dead.png')";
+	dino.style.animation = "none";
+	spike.style.animationPlayState = "paused";
+	document.getElementById("bg").style
+	.animationPlayState = "paused";
+}
+
+function jump () {
+	if (!(isDead) && !(isJumping)) {
+		isJumping = true;
+		dino.style.animation = "jumping 800ms steps(1,end)";
+		setTimeout(resetAnim, 800);
+	}
+}
+
+function resetAnim () {
+	isJumping = false;
+	dino.style.animation = "moving 500ms steps(1,end) infinite";
+};
+
+function generateNewSpike () {
+	// Random image
+	randIndex = Math.floor(Math.random() * spikeImages.length);
+	spike.style.backgroundImage = "url(" + spikeImages[randIndex] + ")";
+
+	// Increase speed as score higher
+	if (sessionStorage.score > 30) {
+		spike.style.animationDuration = "3s";
+	} else if (sessionStorage.score > 20) {
+		spike.style.animationDuration = "4s";
+	}
+};
+
