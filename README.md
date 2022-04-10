@@ -1,6 +1,6 @@
 # Dino Jump - Simple JS Game
 
-### Play Game --> [Dino Jump](https://indiecodermm.github.io/dino-jump/dino-jump.html)
+### Play Game --> [Dino Jump](https://indiecodermm.github.io/dino-jump/dino_jump.html)
 
 This game is written in most basic javascript code so that every beginner can understand and apply the concepts easily. 
 
