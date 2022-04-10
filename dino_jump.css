@@ -29,6 +29,20 @@ body {
 	justify-content: space-between;
 }
 
+#mute-btn {
+	width: 50px;
+	height: 50px;
+	background-image: url('img/mute_icon.png');
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-size: contain;
+	border-radius: 5px;
+}
+
+#mute-btn:hover {
+	background-color: rgba(255, 255, 255, 0.65);
+}
+
 #bg {
 	width: 2560px;
 	height: 100%;

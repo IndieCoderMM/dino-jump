@@ -2,9 +2,11 @@ var dino = document.getElementById("dino");
 var spike = document.getElementById("spike");
 var scoreText = document.getElementById('score');
 var hiscoreText = document.getElementById('hiscore');
+var muteBtn = document.getElementById('mute-btn');
 
 var isDead = true;
 var isJumping = false;
+var isMute = true;
 var spikeImages = ['img/cactus1.png', 'img/cactus2.png'];
 var jumpSfx = new Audio('sound/jump_sfx.wav');
 var bgMusic = new Audio('sound/bg_music.mp3');
@@ -25,6 +27,8 @@ if ( window.innerWidth <= 600 ) {
 	toastr.success("If you are ready...", "Click this to start");
 }
 
+muteBtn.addEventListener("click", musicOnOff);
+
 // Start game when toastr is clicked
 function startGame () {
 	// Initialize scores
@@ -37,8 +41,6 @@ function startGame () {
 
 	// Update game once every 10ms
 	setInterval(updateGame, 10);
-	bgMusic.loop = true;
-	bgMusic.play();
 }
 
 function updateGame () {
@@ -110,3 +112,15 @@ function generateNewSpike () {
 	// }
 }
 
+function musicOnOff() {
+	if (isMute) {
+		isMute = false;
+		bgMusic.loop = true;
+		bgMusic.play();
+		muteBtn.style.backgroundImage = "url('img/sound_icon.png')";
+	} else {
+		isMute = true;
+		bgMusic.pause();
+		muteBtn.style.backgroundImage = "url('img/mute_icon.png')";
+	}	
+}
