@@ -10,8 +10,8 @@ This game is inspired by popular browser game ["Chrome Dino"](https://chromedino
 
 ## Features
 
-1.	CSS layouts: Flex, Position
-2.	CSS animations for sliding background and objects
-3.	Changing styles with JS: animations, images
-4.	Using *sessionStorage* to store scores
-5.	*Toastr Library* for showing notifications 
+1.	CSS animations for sliding background and objects
+2.	Changing styles with JS: animations, images
+3.	*Session Storage* to store scores
+4.	*Toastr Library* for displaying notifications 
+5.	*Audio Constructor* to play sound effects

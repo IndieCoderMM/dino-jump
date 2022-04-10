@@ -6,13 +6,10 @@ var hiscoreText = document.getElementById('hiscore');
 var isDead = true;
 var isJumping = false;
 var spikeImages = ['img/cactus1.png', 'img/cactus2.png'];
+var jumpSfx = new Audio('sound/jump_sfx.wav');
+var bgMusic = new Audio('sound/bg_music.mp3');
+var hitSfx = new Audio('sound/hit_sfx.wav');
 
-if ( window.innerWidth <= 600 ) {
-	toastr.options.timeOut = 2000;
-	toastr.options.extendedTimeOut = 1000;
-	toastr.options.progressBar = true;
-	toastr.info("Rotate your phone for better experience.")
-}
 
 // Start button using Toastr
 toastr.options = {
@@ -22,7 +19,11 @@ toastr.options = {
 	'positionClass': "toast-bottom-right"
 }
 
-toastr.success("Click this to start...");
+if ( window.innerWidth <= 600 ) {
+	toastr.success("Rotate your phone for better experience.", "Click this to start");
+} else {
+	toastr.success("If you are ready...", "Click this to start");
+}
 
 // Start game when toastr is clicked
 function startGame () {
@@ -36,6 +37,8 @@ function startGame () {
 
 	// Update game once every 10ms
 	setInterval(updateGame, 10);
+	bgMusic.loop = true;
+	bgMusic.play();
 }
 
 function updateGame () {
@@ -66,13 +69,14 @@ function updateScore () {
 function gameOver () {
 	if (!(isDead)) {
 		isDead = true;
+		bgMusic.pause();
+		hitSfx.play();
 		toastr.options.onclick = function () {
 			document.location.reload(true);
 		};
-		toastr.success("Click to Play Again...");
+		toastr.info("Click to Play Again...");
 		toastr.options.timeOut = 3000;
 		toastr.options.extendedTimeOut = 500;
-		toastr.options.progressBar = true;
 		toastr.warning("GAME OVER!");
 	}
 	dino.style.backgroundImage = "url('img/dead.png')";
@@ -83,11 +87,12 @@ function gameOver () {
 }
 
 function jump () {
-	if (!(isDead) && !(isJumping)) {
-		isJumping = true;
-		dino.style.animation = "jumping 800ms steps(1,end)";
-		setTimeout(resetAnim, 800);
-	}
+	if (isDead || isJumping) return
+	isJumping = true;
+	console.log('Jumped');
+	dino.style.animation = "jumping 800ms steps(1,end)";
+	setTimeout(resetAnim, 800);
+	jumpSfx.play();
 }
 
 function resetAnim () {
@@ -99,10 +104,9 @@ function generateNewSpike () {
 	// Random image
 	randIndex = Math.floor(Math.random() * spikeImages.length);
 	spike.style.backgroundImage = "url(" + spikeImages[randIndex] + ")";
-
 	// Increase speed as score higher
-	if (sessionStorage.score > 20) {
-		spike.style.animationDuration = "3s";
-	}
+	// if (sessionStorage.score > 20) {
+	// 	spike.style.animationDuration = "3s";
+	// }
 }
 

@@ -63,7 +63,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: left bottom;
 	background-size: contain;
-	animation: slideObj 5s linear infinite;
+	animation: slideObj 3.5s linear infinite;
 	animation-play-state: paused;
 }
 
@@ -116,6 +116,9 @@ body {
 }
 
 @keyframes slideObj {
+	0% {
+		left: 2000px;
+	}
 	100% {
 		left: -100px;
 	}
