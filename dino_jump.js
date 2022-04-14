@@ -2,7 +2,7 @@ var dino = document.getElementById("dino");
 var spike = document.getElementById("spike");
 var scoreText = document.getElementById('score');
 var hiscoreText = document.getElementById('hiscore');
-var muteBtn = document.getElementById('mute-btn');
+var muteBtn = document.getElementById('mute');
 
 var isDead = true;
 var isJumping = false;
@@ -49,7 +49,7 @@ function updateGame () {
 	var dinoWidth = parseInt(window.getComputedStyle(dino).getPropertyValue("width"));
 	var spikeLeft = parseInt(window.getComputedStyle(spike).getPropertyValue("left"));
 
-	if ( spikeLeft < (dinoLeft+dinoWidth/3) && spikeLeft > dinoLeft && dinoBottom <= 100 ) {
+	if ( spikeLeft < (dinoLeft+dinoWidth) && spikeLeft > dinoLeft && dinoBottom <= 100 ) {
 		gameOver();
 	} else if ( spikeLeft < -95 ) {
 		generateNewSpike();
@@ -91,16 +91,14 @@ function gameOver () {
 function jump () {
 	if (isDead || isJumping) return
 	isJumping = true;
-	console.log('Jumped');
 	dino.style.animation = "jumping 800ms steps(1,end)";
-	setTimeout(resetAnim, 800);
+	setTimeout(function() {
+		isJumping = false;
+		dino.style.animation = "moving 500ms steps(1,end) infinite";
+	}, 800);
 	jumpSfx.play();
 }
 
-function resetAnim () {
-	isJumping = false;
-	dino.style.animation = "moving 500ms steps(1,end) infinite";
-}
 
 function generateNewSpike () {
 	// Random image
